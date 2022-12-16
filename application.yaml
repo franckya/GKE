@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: deployment-httpd-pod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/franckya/GKE.git
+    targetRevision: HEAD
+    path: deployment-httpd-pod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
+
